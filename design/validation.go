@@ -349,6 +349,15 @@ func (a *ActionDefinition) Validate() *dslengine.ValidationErrors {
 		}
 	}
 
+	if a.Payload != nil {
+		if _, ok := a.Responses[BadRequest]; !ok {
+			verr.Add(a, "Payload requires %v response", BadRequest)
+		}
+		if _, ok := a.Responses[RequestEntityTooLarge]; !ok {
+			verr.Add(a, "Payload requires %v response", RequestEntityTooLarge)
+		}
+	}
+
 	return verr.AsError()
 }
 
